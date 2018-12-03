@@ -135,8 +135,13 @@ def main(argv):
     parser.add_argument('--print-url', help='include URLs in output', action='store_true')
     parser.add_argument('--readers', default=cpu_count(), type=int)
     parser.add_argument('--workers', default=cpu_count(), type=int)
-    parser.add_argument('warcs', nargs='+')
+    parser.add_argument('--stdin', action='store_true')
+    parser.add_argument('warcs', nargs='*')
     args = parser.parse_args()
+
+    if args.stdin:
+        for line in sys.stdin:
+            args.warcs.append(line.strip())
 
     m = Manager()
     warcq = m.Queue()
